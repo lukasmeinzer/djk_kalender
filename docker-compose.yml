@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: backend_bewerbungsmaster
+    container_name: djk-kalender-app
     restart: unless-stopped
     ports:
       - "8000:8000"
