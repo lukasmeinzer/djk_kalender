@@ -41,7 +41,7 @@ for MANNSCHAFT, url in MANNSCHAFTEN.items():
 
     spiele: list[dict] = get_spiele_infos(url)
     
-    folder_path = Path(f"spieltermine_{MANNSCHAFT}")
+    folder_path = Path(f"djk-kalender-app/src/spieltermine_{MANNSCHAFT}")
     folder_path.mkdir(parents=True, exist_ok=True)
 
     for spiel in spiele:
