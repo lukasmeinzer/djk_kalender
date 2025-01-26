@@ -1,0 +1,29 @@
+name: Deploy djk-kalender-app
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up SSH key
+      run: |
+        mkdir -p ~/.ssh                
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa 
+        chmod 600 ~/.ssh/id_rsa       
+        ssh-keyscan -H "${{ secrets.SERVER_IP }}" >> ~/.ssh/known_hosts
+
+    - name: Build and Run Docker Container
+      run: |
+        ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << EOF
+          cd git_local/djk_kalender
+          git pull
+          docker compose down || true
+          docker compose up -d --build
+        EOF
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

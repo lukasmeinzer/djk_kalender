@@ -1,0 +1,11 @@
+services:
+  djk-kalender-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend_bewerbungsmaster
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
