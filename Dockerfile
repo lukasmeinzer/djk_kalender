@@ -9,8 +9,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 COPY pyproject.toml uv.lock /app/
 
 # Copy the application into the container.
-COPY /djk-kalender-app /app
-RUN ls
+COPY /djk-kalender-app /app/
 
 # Install the application dependencies.
 WORKDIR /app
