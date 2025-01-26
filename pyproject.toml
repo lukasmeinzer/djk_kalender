@@ -1,0 +1,17 @@
+[project]
+name = "djk-kalender"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "bs4>=0.0.2",
+    "ics>=0.7.2",
+    "pytz>=2024.2",
+    "requests>=2.32.3",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+]
