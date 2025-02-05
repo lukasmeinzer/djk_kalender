@@ -6,4 +6,4 @@ services:
     container_name: djk-kalender-app
     restart: unless-stopped
     ports:
-      - "1998:8000"
+      - "1998:8021"
