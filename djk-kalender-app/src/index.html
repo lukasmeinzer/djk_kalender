@@ -9,19 +9,21 @@
 </head>
 <body>
     <div class="container">
-        <img src="/static/favicon.ico" alt="Favicon" style="width: 50px; height: 50px;">
+        <img src="/static/favicon.ico" alt="Favicon" class="favicon">
         <h1>DJK Kalender</h1>
-        <p id="textBlock">Hier kannst du die aktuellen Kalender Einträge für deine Mannschaft anfordern.</p>
-        <select id="folderSelect">
-            <option value="DJK_I">erste Mannschaft</option>
-            <option value="DJK_II">zweite Mannschaft</option>
-        </select>
-        <button id="requestButton">Jetzt anfordern</button>
-        <!-- List of calendar entries -->
-        <div id="listContainer"></div>
+        
+        <p id="textBlock">Hier kannst du die aktuellen Kalender Einträge für alle Spiele herunterladen.</p>
+        
+        <!-- Links to download the ics files -->
+        <p>
+            <a href="/download-ics/DJK_I" class="download-link" data-team="DJK_I">Download Kalender für erste Mannschaft</a>
+        </p>
+        <p>
+            <a href="/download-ics/DJK_II" class="download-link" data-team="DJK_II">Download Kalender für zweite Mannschaft</a>
+        </p>
     </div>
 
-    <!-- Full-screen overlay with spinner to block interactions -->
+    <!-- Full-screen overlay with spinner -->
     <div id="overlay" class="hidden">
         <div class="spinner"></div>
     </div>

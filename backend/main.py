@@ -1,14 +1,29 @@
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
-from datetime import datetime
-import os
-from build_ics.ics_creation import create_ics
+from pathlib import Path
 
+from build_ics.ics_creation import create_ics
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="djk-kalender-app/src"), name="static")
+
+
+@app.get("/download-ics/{team}")
+async def download_ics(team: str):
+    create_ics(team) # creates the file with newest data
+    ics_file_path = Path(f"djk-kalender-app/src/spieltermine/{team}_alle_spiele.ics")
+    
+    if ics_file_path.exists():
+        return FileResponse(
+            ics_file_path,
+            media_type='text/calendar',
+            filename=ics_file_path.name,
+            headers={"Content-Disposition": "attachment; filename=" + ics_file_path.name}  # Ensure attachment
+        )
+    else:
+        return {"error": "Kontaktiere Lukas Meinzer"}
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -16,28 +31,6 @@ async def root():
     with open("djk-kalender-app/src/index.html") as f:
         return HTMLResponse(content=f.read(), status_code=200)
 
-
-@app.get("/get-ics-files/{team}")
-async def get_ics_files(team: str):
-    # Warte bis ics Dateien erstellt wurden
-    create_ics(team)
-    
-    # Dann gucke hier nach den Dateien
-    directory_path = f"djk-kalender-app/src/spieltermine_{team}"
-    try:
-        files = [f for f in os.listdir(directory_path) if f.endswith('.ics')]
-        list_return = []
-        for f in files:
-            dict_temp = {}
-            dict_temp["Datei"] = f
-            timestamp = f.split(".ics")[0].split("_")[1]
-            dt = datetime.strptime(timestamp, "%Y%m%dT%H%M%S")
-            dict_temp["Datum"] = dt.date().isoformat()
-            dict_temp["Gegner"] = f.split("_")[0]
-            list_return.append(dict_temp)
-        return JSONResponse(content=list_return)
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
 
 if __name__ == "__main__":
     import uvicorn
