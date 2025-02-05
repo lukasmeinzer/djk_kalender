@@ -1,5 +1,6 @@
 # djk_kalender
-Automatisiert Kalendereinträge der DJK Spiele erstellen
+Automatisiert Kalendereinträge der DJK Spiele erstellen.
+Abrufbar unter https://djk-ottenhofen-kalender.de/
 
 
 ## Anleitung
