@@ -14,9 +14,6 @@ document.getElementById('requestButton').addEventListener('click', function() {
         })
         .then(files => {
             console.log('Files received:', files);
-            // Hide loading indicator
-            loadingIndicator.style.display = 'none';
-
             // Sort files by date
             files.sort((a, b) => new Date(a.Datum) - new Date(b.Datum));
 
@@ -59,8 +56,10 @@ document.getElementById('requestButton').addEventListener('click', function() {
             listContainer.appendChild(table);
         })
         .catch(error => {
-            // Hide loading indicator on error
-            loadingIndicator.style.display = 'none';
             console.error('Error fetching files:', error);
+        })
+        .finally(() => {
+            // Hide loading indicator regardless of success or error
+            loadingIndicator.style.display = 'none';
         });
 });
