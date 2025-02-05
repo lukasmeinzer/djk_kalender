@@ -1,28 +1,51 @@
 document.getElementById('requestButton').addEventListener('click', function() {
-    const selectedFolder = document.getElementById('folderSelect').value;
-    fetch(`/get-ics-files/${selectedFolder}`)
+    const selectedTeam = document.getElementById('folderSelect').value;
+    fetch(`/get-ics-files/${selectedTeam}`)
         .then(response => response.json())
         .then(files => {
-            // Extract date from filename and sort files as strings
-            files.sort((a, b) => {
-                const dateA = a.split('_')[1].replace('.ics', '');
-                const dateB = b.split('_')[1].replace('.ics', '');
-                return dateA.localeCompare(dateB);
-            });
+            // Sort files by date
+            files.sort((a, b) => new Date(a.Datum) - new Date(b.Datum));
 
             const listContainer = document.getElementById('listContainer');
             listContainer.innerHTML = ''; // Clear any existing content
-            const ol = document.createElement('ol');
-            files.forEach(file => {
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.href = `/static/${selectedFolder}/${file}`;
-                a.textContent = file;
-                a.download = file;
-                li.appendChild(a);
-                ol.appendChild(li);
+
+            const table = document.createElement('table');
+            table.classList.add('ics-table');
+
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            ['Datum', 'Gegner', 'Kalendereintrag'].forEach(text => {
+                const th = document.createElement('th');
+                th.textContent = text;
+                headerRow.appendChild(th);
             });
-            listContainer.appendChild(ol);
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            files.forEach(file => {
+                const row = document.createElement('tr');
+
+                const datumCell = document.createElement('td');
+                datumCell.textContent = file.Datum;
+                row.appendChild(datumCell);
+
+                const gegnerCell = document.createElement('td');
+                gegnerCell.textContent = file.Gegner;
+                row.appendChild(gegnerCell);
+
+                const linkCell = document.createElement('td');
+                const a = document.createElement('a');
+                a.href = `/static/spieltermine_${selectedTeam}/${file.Datei}`;
+                a.textContent = 'Download';
+                a.download = file.Datei;
+                linkCell.appendChild(a);
+                row.appendChild(linkCell);
+
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+            listContainer.appendChild(table);
         })
         .catch(error => console.error('Error fetching files:', error));
 });

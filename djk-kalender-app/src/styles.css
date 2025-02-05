@@ -5,6 +5,7 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
+    padding: 0;
 }
 
 .container {
@@ -12,6 +13,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 h1 {
@@ -28,12 +32,46 @@ p {
 select {
     padding: 10px;
     font-size: 16px;
-    width: 40%;
     margin-bottom: 10px;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+    min-width: 200px; /* Set a minimum width */
 }
 
 button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+}
+
+.ics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed; /* Ensure table does not overflow */
+}
+
+.ics-table th, .ics-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    word-wrap: break-word; /* Ensure long words break to fit the cell */
+}
+
+.ics-table th {
+    background-color: #f2f2f2;
+    white-space: nowrap; /* Prevent text from wrapping in header cells */
+}
+
+.ics-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.ics-table tr:hover {
+    background-color: #ddd;
+}
+
+@media (max-width: 600px) {
+    .ics-table th, .ics-table td {
+        padding: 4px;
+    }
 }

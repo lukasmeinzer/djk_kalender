@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DJK Kalender</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <div class="container">
-        <img src="favicon.ico" alt="Favicon" style="width: 50px; height: 50px;">
+        <img src="/static/favicon.ico" alt="Favicon" style="width: 50px; height: 50px;">
         <h1>DJK Kalender</h1>
         <p id="textBlock">Hier kannst du Kalender Einträge für deine Mannschaft anfordern.</p>
         <select id="folderSelect">
-            <option value="spieltermine_DJK_I">DJK_I</option>
-            <option value="spieltermine_DJK_II">DJK_II</option>
+            <option value="DJK_I">erste Mannschaft</option>
+            <option value="DJK_II">zweite Mannschaft</option>
         </select>
         <button id="requestButton">Jetzt anfordern</button>
         <div id="listContainer"></div> 
     </div>
-    <script src="app.js"></script>
+    <script src="/static/app.js"></script>
 </body>
 </html>
