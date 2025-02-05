@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 import os
-from build_ics.ics_creation import create_ics
+from backend.build_ics.ics_creation import create_ics
 
 
 app = FastAPI()
