@@ -1,24 +1,28 @@
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 import os
-
+from build_ics.ics_creation import create_ics
 
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="djk-kalender-app/src"), name="static")
 
-@app.get("/")
+
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    return {"message": "server callabe"}
+    with open("djk-kalender-app/src/index.html") as f:
+        return HTMLResponse(content=f.read(), status_code=200)
+
 
 @app.get("/get-ics-files/{team}")
 async def get_ics_files(team: str):
+    # Warte bis ics Dateien erstellt wurden
+    create_ics(team)
     
-    
-    
+    # Dann gucke hier nach den Dateien
     directory_path = f"djk-kalender-app/src/spieltermine_{team}"
     try:
         files = [f for f in os.listdir(directory_path) if f.endswith('.ics')]

@@ -1,13 +1,24 @@
 document.getElementById('requestButton').addEventListener('click', function() {
     const selectedTeam = document.getElementById('folderSelect').value;
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const listContainer = document.getElementById('listContainer');
+
+    // Show loading indicator
+    loadingIndicator.style.display = 'block';
+    listContainer.innerHTML = ''; // Clear any existing content
+
     fetch(`/get-ics-files/${selectedTeam}`)
-        .then(response => response.json())
+        .then(response => {
+            console.log('Response received:', response);
+            return response.json();
+        })
         .then(files => {
+            console.log('Files received:', files);
+            // Hide loading indicator
+            loadingIndicator.style.display = 'none';
+
             // Sort files by date
             files.sort((a, b) => new Date(a.Datum) - new Date(b.Datum));
-
-            const listContainer = document.getElementById('listContainer');
-            listContainer.innerHTML = ''; // Clear any existing content
 
             const table = document.createElement('table');
             table.classList.add('ics-table');
@@ -36,7 +47,7 @@ document.getElementById('requestButton').addEventListener('click', function() {
 
                 const linkCell = document.createElement('td');
                 const a = document.createElement('a');
-                a.href = `/static/spieltermine_${selectedTeam}/${file.Datei}`;
+                a.href = `/static/spieltermine_${encodeURIComponent(selectedTeam)}/${encodeURIComponent(file.Datei)}`;
                 a.textContent = 'Download';
                 a.download = file.Datei;
                 linkCell.appendChild(a);
@@ -47,5 +58,9 @@ document.getElementById('requestButton').addEventListener('click', function() {
             table.appendChild(tbody);
             listContainer.appendChild(table);
         })
-        .catch(error => console.error('Error fetching files:', error));
+        .catch(error => {
+            // Hide loading indicator on error
+            loadingIndicator.style.display = 'none';
+            console.error('Error fetching files:', error);
+        });
 });

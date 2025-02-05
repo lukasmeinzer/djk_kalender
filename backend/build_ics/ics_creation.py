@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import pytz
 from pathlib import Path
 
-from create_ics.scraping import get_spiele_infos
+from build_ics.scraping import get_spiele_infos
 
 
 MANNSCHAFTEN = {
@@ -37,11 +37,11 @@ END:VTIMEZONE\r
 
 ZEITZONE = pytz.timezone("Europe/Berlin")
 
-for MANNSCHAFT, url in MANNSCHAFTEN.items():
-
+def create_ics(team: str):
+    url = MANNSCHAFTEN[team]
     spiele: list[dict] = get_spiele_infos(url)
     
-    folder_path = Path(f"djk-kalender-app/src/spieltermine_{MANNSCHAFT}")
+    folder_path = Path(f"djk-kalender-app/src/spieltermine_{team}")
     folder_path.mkdir(parents=True, exist_ok=True)
 
     for spiel in spiele:
@@ -76,3 +76,8 @@ for MANNSCHAFT, url in MANNSCHAFTEN.items():
         file_name = f"{Gegner}_{start}.ics"
         with open(folder_path / file_name, "w") as f:
             f.writelines(str_ics_file)
+
+if __name__ == "__main__":
+    for team in MANNSCHAFTEN:
+        create_ics(team)
+    print("ICS-Dateien wurden erstellt.")
