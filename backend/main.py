@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from build_ics.ics_creation import create_ics
+from backend.build_ics.ics_creation import create_ics
 
 app = FastAPI()
 

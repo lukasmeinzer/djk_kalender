@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime, timedelta
 import pytz
 from pathlib import Path
-from build_ics.scraping import get_spiele_infos
+from backend.build_ics.scraping import get_spiele_infos
 
 MANNSCHAFTEN = {
     "DJK_I": "https://www.bfv.de/partial/mannschaftsprofil/spielplan/016PALNC9K000000VV0AG80NVV8OQVTB/naechste?wettbewerbsart=1&spieltyp=ALLE&from=10&size=10",
