@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import pytz
 from pathlib import Path
 
-from build_ics.scraping import get_spiele_infos
+from backend.build_ics.scraping import get_spiele_infos
 
 
 MANNSCHAFTEN = {
