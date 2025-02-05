@@ -1,15 +1,14 @@
 document.getElementById('requestButton').addEventListener('click', function() {
     const selectedTeam = document.getElementById('folderSelect').value;
-    const loadingIndicator = document.getElementById('loadingIndicator');
+    const overlay = document.getElementById('overlay');
     const listContainer = document.getElementById('listContainer');
 
-    // Show loading indicator
-    loadingIndicator.style.display = 'block';
+    // Show overlay (which includes the spinner)
+    overlay.classList.remove('hidden');
     listContainer.innerHTML = ''; // Clear any existing content
 
     fetch(`/get-ics-files/${selectedTeam}`)
         .then(response => {
-            console.log('Response received:', response);
             return response.json();
         })
         .then(files => {
@@ -54,12 +53,15 @@ document.getElementById('requestButton').addEventListener('click', function() {
             });
             table.appendChild(tbody);
             listContainer.appendChild(table);
+
+            // Scroll back to the top of the container
+            listContainer.scrollIntoView({ behavior: 'smooth' });
         })
         .catch(error => {
             console.error('Error fetching files:', error);
         })
         .finally(() => {
-            // Hide loading indicator regardless of success or error
-            loadingIndicator.style.display = 'none';
+            // Hide the overlay regardless of success or error
+            overlay.classList.add('hidden');
         });
 });

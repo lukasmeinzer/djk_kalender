@@ -17,13 +17,15 @@
             <option value="DJK_II">zweite Mannschaft</option>
         </select>
         <button id="requestButton">Jetzt anfordern</button>
-        <!-- Loading spinner (hidden by default) -->
-        <div id="loadingIndicator" class="hidden">
-            <div class="spinner"></div>
-        </div> 
         <!-- List of calendar entries -->
         <div id="listContainer"></div>
     </div>
+
+    <!-- Full-screen overlay with spinner to block interactions -->
+    <div id="overlay" class="hidden">
+        <div class="spinner"></div>
+    </div>
+
     <script src="/static/app.js"></script>
 </body>
 </html>
